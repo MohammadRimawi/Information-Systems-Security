@@ -46,3 +46,4 @@ def generate_gird(key,size):
     print_grid(grid)
 
 generate_gird(new_key,5)
+#test
