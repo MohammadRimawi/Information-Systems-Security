@@ -22,7 +22,7 @@ def caesar_cipher_enc (plain_text,key):
 
     for i in range(len(plain_text)):
         cipher_text += chr( ( ord(plain_text[i]) - ord('a') + key) % 26 + ord('a') )
-    data['cipherText']=cipher_text
+    data['cipherText']=cipher_text.upper()
     
     alph=[]
     for i in range(26):
@@ -38,7 +38,7 @@ def caesar_cipher_dec (cipher_text,key):
 
     cipher_text = normalize_text(cipher_text)
 
-    data['cipherText'] = cipher_text
+    data['cipherText'] = cipher_text.upper()
     
     data['key'] = key
     

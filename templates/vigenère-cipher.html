@@ -81,6 +81,9 @@
             text-align:left;
             border: none;
         }
+        .center{
+            text-align:center;
+        }
     </style>
 </head>
 <body onload = load()>
@@ -91,7 +94,7 @@
         <div>
             
             <ul class="nav nav-pills">
-                <h1>Caesar Cipher</h1>
+                <h1>Vigenère Cipher</h1>
                 <li class="nav-item">
                     <a class="nav-link active" id = "encryptNav" href="#encrypt" onclick="show('encrypt')">Encrypt</a>
                 </li>
@@ -112,7 +115,7 @@
 
             <div class="form-group">
                 <label for="key">Key</label>
-                <input required name = "key" type="number" class="form-control" id="key" value="{{encData['key']}}">
+                <input required name = "key" type="text" class="form-control" id="key" value="{{encData['key']}}">
               </div>
 
               <div>
@@ -130,61 +133,49 @@
         <h6>Plain Text:</h6>
         <p>{{encData['plainText']}}</p>
         <h6>Key:</h6>
-        <p>{{encData['key']}} mod  26 = {{encData['key0']}}</p>
+        <p>{{encData['key']}}</p>
 
         <div>
 
             <table>
                 <tr><td class="no-border" colspan="26"><h6>Normal alphapet</h6></td></tr>
 
+               
                 <tr>
-                    <td>A</td>
-                    <td>B</td>
-                    <td>C</td>
-                    <td>D</td>
-                    <td>E</td>
-                    <td>F</td>
-                    <td>G</td>
-                    <td>H</td>
-                    <td>I</td>
-                    <td>J</td>
-                    <td>K</td>
-                    <td>L</td>
-                    <td>M</td>
-                    <td>N</td>
-                    <td>O</td>
-                    <td>P</td>
-                    <td>Q</td>
-                    <td>R</td>
-                    <td>S</td>
-                    <td>T</td>
-                    <td>U</td>
-                    <td>V</td>
-                    <td>W</td>
-                    <td>X</td>
-                    <td>Y</td>
-                    <td>Z</td>
-                </tr>
-                <tr>
-                    {% for i in encData['alph'] %}
-                     <td>{{(loop.index-1)%26}}</td>
+                    {% for i in encData['plainText'] %}
+                     <td>{{(i)}}</td>
                      {% endfor %}
                  </tr>
-                <tr><td class="no-border"><br></td></tr>
 
-                <tr><td class="no-border" colspan="26"><h6>after shifting by {{encData['key0']}} places </h6></td></tr>
-
-                
-                <tr>
-                   {% for i in encData['alph'] %}
-                    <td>{{i}}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    {% for i in encData['alph'] %}
-                     <td>{{(loop.index-encData['key0']-1)%26}}</td>
+                 <tr>
+                    {% for i in encData['plainText'] %}
+                     <td class="no-border center">+</td>
                      {% endfor %}
                  </tr>
+                 <tr>
+                    {% for i in encData['plainText'] %}
+                     <td >{{encData['key'][(loop.index-1)%(encData['key']|length)]}}</td>
+                     {% endfor %}
+                 </tr>
+
+                 {% for i in encData['plainText'] %}
+                 <td >{{encData['new_key'][(loop.index-1)%(encData['new_key']|length)]}}</td>
+                 {% endfor %}
+                </tr>
+
+                 <tr>
+                    {% for i in encData['plainText'] %}
+                     <td class="no-border center">=</td>
+                     {% endfor %}
+                 </tr>
+
+                 <tr>
+                    {% for i in encData['cipherText'] %}
+                     <td>{{(i)}}</td>
+                     {% endfor %}
+                 </tr>
+     
+
         </table>
     </div>
     
@@ -201,17 +192,16 @@
     <form action="" method="post">
         <div class="form-group">
             <label for="cipherText">Cipher Text</label>
-            <textarea required name = "cipherText" class="form-control" id="cipherText" rows="8">{{decData['cipherText']}}{{bruteForceData['cipherText']}}</textarea>
+            <textarea required name = "cipherText" class="form-control" id="cipherText" rows="8">{{decData['cipherText']}}</textarea>
         </div>    
 
         <div class="form-group">
             <label for="key">Key</label>
-            <input name = "key" type="number" class="form-control" id="key" value="{{decData['key']}}">
+            <input required name = "key" type="text" class="form-control" id="key" value="{{decData['key']}}">
           </div>
           <div>
 
               <input name = "submitButton" type="submit" class="btn btn-primary" value="Decrypt">
-              <input name = "submitButton" type="submit" class="btn btn-danger" value="Brute Force">
 
             </div>
 
@@ -226,9 +216,8 @@
     <h6>Cipher Text:</h6>
     <p>{{decData['cipherText']}}</p>
     <h6>Key:</h6>
-    <p>{{decData['key']}} mod  26 = {{decData['key0']}}</p>
-    <h6>Key Prime:</h6>
-    <p>(26 - {{decData['key']}}) mod  26 = {{decData['keyPrime']}}</p>
+    <p>{{decData['key']}}</p>
+
 
     <div>
 
@@ -236,53 +225,38 @@
           
 
             
-            <tr><td class="no-border" colspan="26"><h6>Cipher alphapet</h6></td></tr>
-            
-            
             <tr>
-                {% for i in decData['alph'] %}
-                <td>{{i}}</td>
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for i in decData['alph'] %}
-                <td>{{(loop.index-decData['key0']-1)%26}}</td>
-                {% endfor %}
-            </tr>
-            <tr><td class="no-border"><br></td></tr>
-             <tr><td class="no-border" colspan="26"><h6>Cipher alphapet after shifting by {{decData['keyPrime']}} places</h6></td></tr>
+                {% for i in decData['cipherText'] %}
+                 <td>{{(i)}}</td>
+                 {% endfor %}
+             </tr>
 
              <tr>
-                 <td>A</td>
-                 <td>B</td>
-                 <td>C</td>
-                 <td>D</td>
-                 <td>E</td>
-                 <td>F</td>
-                 <td>G</td>
-                 <td>H</td>
-                 <td>I</td>
-                 <td>J</td>
-                 <td>K</td>
-                 <td>L</td>
-                 <td>M</td>
-                 <td>N</td>
-                 <td>O</td>
-                 <td>P</td>
-                 <td>Q</td>
-                 <td>R</td>
-                 <td>S</td>
-                 <td>T</td>
-                 <td>U</td>
-                 <td>V</td>
-                 <td>W</td>
-                 <td>X</td>
-                 <td>Y</td>
-                 <td>Z</td>
+                {% for i in decData['cipherText'] %}
+                 <td class="no-border center">-</td>
+                 {% endfor %}
              </tr>
              <tr>
-                {% for i in decData['alph'] %}
-                 <td>{{(loop.index-1)%26}}</td>
+                {% for i in decData['cipherText'] %}
+                 <td >{{decData['key'][(loop.index-1)%(decData['key']|length)]}}</td>
+                 {% endfor %}
+             </tr>
+
+             <tr>
+                {% for i in decData['cipherText'] %}
+                 <td >{{decData['new_key'][(loop.index-1)%(decData['new_key']|length)]}}</td>
+                 {% endfor %}
+             </tr>
+
+             <tr>
+                {% for i in decData['cipherText'] %}
+                 <td class="no-border center">=</td>
+                 {% endfor %}
+             </tr>
+
+             <tr>
+                {% for i in decData['plainText'] %}
+                 <td>{{(i)}}</td>
                  {% endfor %}
              </tr>
     </table>
@@ -297,20 +271,7 @@
 {% endif %}
 
 
-{% if bruteForceData != {} %}
 
-<div class="text-box">
-    <h3>Decrypting Steps</h3>
-    <hr>
-    <h6>Cipher Text:</h6>
-    <p>{{bruteForceData['cipherText']}}</p>
-    <h6>All possible values:</h6>
-    {% for item in bruteForceData['tries'] %}
-    <p>Key prime: <strong>{{item[0]}}</strong> --> Plain text: <strong>{{item[1]}}</strong></p>
-    {% endfor %}
-
-</div>
-{% endif %}
 </div>
 
     </div>

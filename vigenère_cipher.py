@@ -16,7 +16,6 @@ def polyalphabetic_cipher_dec(cipher_text,key):
 
     plain_text = ""
 
-    
     for i in range(len(cipher_text)):        
         plain_text+= chr( ( ord(cipher_text[i]) - ord('a') - (ord( key[i%len(key)] ) - ord('a')) ) %26 + ord('a'))
     

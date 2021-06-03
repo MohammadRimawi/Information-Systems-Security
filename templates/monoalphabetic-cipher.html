@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSUT Cipher tools</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
+    <script>
+     
+
+        function validate(elm){
+
+            
+            if ((elm.value<='Z' && elm.value>='A')||(elm.value<='z' && elm.value>='a')){
+                elm.value= elm.value.toUpperCase();
+            } 
+            else{
+                elm.classList.remove("is-valid")
+                elm.classList.add("is-invalid")
+            }
+
+            var encKeys = document.getElementsByClassName("encKey")
+            var decKeys = document.getElementsByClassName("decKey")
+
+            if(elm.classList.contains("encKey")){
+                for(var i =0;i<26;i++){
+                    decKeys[i].value=encKeys[i].value;
+                }
+            }
+            else{
+                for(var i =0;i<26;i++){
+                    encKeys[i].value=decKeys[i].value;
+                }
+            }
+
+            var alph = new Array(26);
+           
+            for (var i=0;i<26;i++){
+                alph[i]=[String.fromCharCode(65+i),0];
+            }
+
+            var key = document.getElementsByClassName("encKey")
+                for (var i =0;i<26;i++){
+                    if(key[i].value != "" && ((key[i].value<='Z' && key[i].value>='A')||(key[i].value<='z' && key[i].value>='a'))){
+                        val = key[i].value.charCodeAt(0)
+                        alph[val-65][1]+=1;
+                    }
+                }
+                
+            valid_key=true;
+
+            var key = document.getElementsByClassName("encKey")
+            for (var i = 0;i<26; i++){
+
+                    if(key[i].value != "" && ((key[i].value<='Z' && key[i].value>='A')||(key[i].value<='z' && key[i].value>='a'))){
+                        val = key[i].value.charCodeAt(0)
+   
+                        key[i].classList.remove("is-invalid")
+                        decKeys[i].classList.remove("is-invalid")
+                        key[i].classList.remove("is-valid")
+                        decKeys[i].classList.remove("is-valid")
+                        // console.log(val)
+
+                        if(alph[val-65][1]==1){
+                            key[i].classList.add("is-valid")
+                            decKeys[i].classList.add("is-valid")
+                        }
+                        else{
+                            key[i].classList.add("is-invalid")
+                            decKeys[i].classList.add("is-invalid")
+                            valid_key=false;
+                        }
+                    }else{
+                        valid_key=false;
+                    }
+                }
+
+                if(valid_key){
+                    document.getElementById("encryptButton").disabled=false;
+                    document.getElementById("decryptButton").disabled=false;
+
+                }
+                else{
+                    document.getElementById("encryptButton").disabled=true;
+                    document.getElementById("decryptButton").disabled=true;
+                }
+
+            return 0;
+
+        }
+
+        function show(elm){
+            document.getElementById("encrypt").classList.add("hide");
+            document.getElementById("decrypt").classList.add("hide");
+
+            document.getElementById(elm).classList.remove("hide");
+
+
+            document.getElementById("encryptNav").classList.remove("active");
+            document.getElementById("decryptNav").classList.remove("active");
+            document.getElementById(elm+"Nav").classList.add("active");
+
+        }
+
+        function load(){
+
+            var hash = window.location.hash.split('#')[1]
+            if (hash != "" && hash != null){
+
+                console.log(hash)
+                show(hash)
+            }
+
+            decKeys = document.getElementsByClassName("decKey")
+
+            for(var i = 0;i<26;i++){
+                
+                validate(decKeys[i])
+            }
+        }
+    </script>
+    <style>
+        body {
+            padding:40px 0px;    
+        }
+        #mainDiv{
+            width:90%;
+            margin: auto;
+        }
+
+        #mainDiv div{
+            margin-top: 15px;
+        }
+        table {
+            margin:auto;
+            resize:horizontal; 
+            overflow:auto;
+            width:100%;
+            text-align:center;
+        }
+
+        td{
+            border: 1px solid black;
+            padding :0 !important;
+       
+        }
+        .text-box{
+            background: #ededed;
+            border-radius: 10px;
+            padding: 35px 40px;
+        }
+        h1{
+            margin-right: 20px;
+        }
+
+        .hide{
+            display: none;
+        }
+        .no-border{
+            text-align:left;
+            border: none;
+        }
+        table input{
+            text-align: center;
+            padding:0 !important;
+        }
+        .center{
+            text-align:center;
+        }
+
+        .form-control.is-invalid, .was-validated .form-control:invalid,.form-control.is-valid, .was-validated .form-control:valid{
+        background-image:none !important;   
+        }
+    </style>
+</head>
+<body onload = load()>
+    {% include 'navbar.html' %}
+    <div id = "mainDiv">
+        
+        
+        <div>
+            
+            <ul class="nav nav-pills">
+                <h1>Monoalphabetic Cipher</h1>
+                <li class="nav-item">
+                    <a class="nav-link active" id = "encryptNav" href="#encrypt" onclick="show('encrypt')">Encrypt</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id = "decryptNav" href="#decrypt" onclick="show('decrypt')">Decrypt</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+        
+        <div id="encrypt">
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="plainText">Plain Text</label>
+                <textarea required  name = "plainText" class="form-control" id="plainText" rows="8">{{encData['plainText']}}</textarea>
+            </div>    
+
+            <div class="form-group">
+                <label for="key">Key</label>
+                
+                <table>
+    
+                    <tr>
+                        {% for i in range(26) %}
+       
+                        <td class="no-border"><input required onchange="validate(this)" maxlength=1 name = "key{{i}}" type="text" class="form-control encKey" value="{{encData['i']}}"></td>
+                        {% endfor %}
+                     
+                    </tr>
+                    </table>
+               
+              </div>
+
+              <div>
+                <input name="submitButton" type="submit" class="btn btn-primary" value="Encrypt" id ="encryptButton" disabled >
+                
+              </div>
+        </form>
+
+
+    {% if encData != {} %}
+
+    <div class="text-box">
+        <h3>Encrypting Steps</h3>
+        <hr>
+        <h6>Plain Text:</h6>
+        <p>{{encData['plainText']}}</p>
+        <h6>Key:</h6>
+        <p>{{key}}</p>
+
+        <div>
+
+            <table>
+                <tr><td class="no-border" colspan="26"><h6>Mapping normal alphapet to the key</h6></td></tr>
+
+                <tr>
+                    <td>A</td>
+                    <td>B</td>
+                    <td>C</td>
+                    <td>D</td>
+                    <td>E</td>
+                    <td>F</td>
+                    <td>G</td>
+                    <td>H</td>
+                    <td>I</td>
+                    <td>J</td>
+                    <td>K</td>
+                    <td>L</td>
+                    <td>M</td>
+                    <td>N</td>
+                    <td>O</td>
+                    <td>P</td>
+                    <td>Q</td>
+                    <td>R</td>
+                    <td>S</td>
+                    <td>T</td>
+                    <td>U</td>
+                    <td>V</td>
+                    <td>W</td>
+                    <td>X</td>
+                    <td>Y</td>
+                    <td>Z</td>
+                </tr>
+                <tr>
+                    {% for i in range(26) %}
+                     <td class="no-border center">↓</td>
+                     {% endfor %}
+                 </tr>
+
+                
+                <tr>
+                   {% for i in key %}
+                    <td>{{i}}</td>
+                    {% endfor %}
+                </tr>
+    
+        </table>
+    </div>
+    
+    <br>
+    <h6>Cipher Text:</h6>
+    <p>{{encData['cipherText']}}</p>
+
+
+    </div>
+    {% endif %}
+</div>
+
+<div id="decrypt"  class="hide" >
+    <form action="" method="post">
+        <div class="form-group">
+            <label for="cipherText">Cipher Text</label>
+            <textarea required name = "cipherText" class="form-control" id="cipherText" rows="8">{{decData['cipherText']}}</textarea>
+        </div>    
+
+        <div class="form-group">
+            <label for="key">Key</label>
+            <table>
+    
+                <tr>
+                    {% for i in range(26) %}
+                    <td class="no-border"><input required onchange="validate(this)" maxlength=1 name = "key{{i}}" type="text" class="form-control decKey" value="{{key[i]}}"></td>
+                    {% endfor %}
+                </tr>
+                </table>  
+                    </div>
+          <div>
+
+              <input disabled name = "submitButton" type="submit" class="btn btn-primary" id="decryptButton" value="Decrypt">
+
+            </div>
+
+    </form>
+
+
+{% if decData != {} %}
+
+<div class="text-box">
+    <h3>Decrypting Steps</h3>
+    <hr>
+    <h6>Cipher Text:</h6>
+    <p>{{decData['cipherText']}}</p>
+    <h6>Key:</h6>
+    <p>{{key}}</p>
+    <h6>Key Prime:</h6>
+    <p>{{decData['keyPrime']}}</p>
+
+    <table>
+        <tr><td class="no-border" colspan="26">Sort the key and keep track of the alphapet letter associated to each letter in the key</td></tr>
+        <tr><td class="no-border"><br></td></tr>
+
+        <tr>
+            {% for i in key %}
+             <td>{{i}}</td>
+             {% endfor %}
+         </tr>
+
+        <tr>
+            <td>A</td>
+            <td>B</td>
+            <td>C</td>
+            <td>D</td>
+            <td>E</td>
+            <td>F</td>
+            <td>G</td>
+            <td>H</td>
+            <td>I</td>
+            <td>J</td>
+            <td>K</td>
+            <td>L</td>
+            <td>M</td>
+            <td>N</td>
+            <td>O</td>
+            <td>P</td>
+            <td>Q</td>
+            <td>R</td>
+            <td>S</td>
+            <td>T</td>
+            <td>U</td>
+            <td>V</td>
+            <td>W</td>
+            <td>X</td>
+            <td>Y</td>
+            <td>Z</td>
+        </tr>
+        
+        <tr><td class="no-border"><br></td></tr>
+
+        <tr><td class="no-border" colspan="26">After sorting the alphapet based on the key you get the Key prime</td></tr>
+        <tr><td class="no-border"><br></td></tr>
+        
+        <tr>
+            {% for i in decData['keyPrime'] %}
+             <td>{{i}}</td>
+             {% endfor %}
+         </tr>
+
+        <tr>
+            <td>A</td>
+            <td>B</td>
+            <td>C</td>
+            <td>D</td>
+            <td>E</td>
+            <td>F</td>
+            <td>G</td>
+            <td>H</td>
+            <td>I</td>
+            <td>J</td>
+            <td>K</td>
+            <td>L</td>
+            <td>M</td>
+            <td>N</td>
+            <td>O</td>
+            <td>P</td>
+            <td>Q</td>
+            <td>R</td>
+            <td>S</td>
+            <td>T</td>
+            <td>U</td>
+            <td>V</td>
+            <td>W</td>
+            <td>X</td>
+            <td>Y</td>
+            <td>Z</td>
+        </tr>
+        <tr><td class="no-border"><br></td></tr>
+
+</table>
+
+    <div>
+
+        <table>
+          
+
+            
+            <tr><td class="no-border" colspan="26"><h6>Mapping normal alphapet to the key prime</h6></td></tr>
+            
+            
+            <tr>
+                <td>A</td>
+                <td>B</td>
+                <td>C</td>
+                <td>D</td>
+                <td>E</td>
+                <td>F</td>
+                <td>G</td>
+                <td>H</td>
+                <td>I</td>
+                <td>J</td>
+                <td>K</td>
+                <td>L</td>
+                <td>M</td>
+                <td>N</td>
+                <td>O</td>
+                <td>P</td>
+                <td>Q</td>
+                <td>R</td>
+                <td>S</td>
+                <td>T</td>
+                <td>U</td>
+                <td>V</td>
+                <td>W</td>
+                <td>X</td>
+                <td>Y</td>
+                <td>Z</td>
+            </tr>
+            <tr>
+                {% for i in range(26) %}
+                 <td class="no-border center">↓</td>
+                 {% endfor %}
+             </tr>
+
+            
+            <tr>
+               {% for i in decData['keyPrime'] %}
+                <td>{{i}}</td>
+                {% endfor %}
+            </tr>
+           
+    </table>
+</div>
+
+<br>
+<h6>Plain Text:</h6>
+<p>{{decData['plainText']}}</p>
+
+
+</div>
+{% endif %}
+
+
+
+</div>
+
+    </div>
+</body>
+</html>
