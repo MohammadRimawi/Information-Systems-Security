@@ -125,4 +125,4 @@ def get_grid(text,key,subtype,type):
     return grid
 
 
-pprint(rail_fence_enc("wearediscoveredfleeatonce",5,"zig-zag"),width=500)
+# pprint(rail_fence_enc("wearediscoveredfleeatonce",5,"zig-zag"),width=500)

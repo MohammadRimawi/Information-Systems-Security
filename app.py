@@ -5,6 +5,7 @@ from monoalphabetic_cipher import *
 from polyalphabetic_cipher import *
 from playfair_cipher import *
 from rail_fence_cipher import *
+from row_transposition_cipher import *
 
 
 app = Flask(__name__)
@@ -19,7 +20,7 @@ def index():
 
 
 @app.route('/caesar-cipher',methods=['GET','POST'])
-def caesarCipher():
+def caesar_cipher():
     encData = {}
     decData = {}
     bruteForceData = {}
@@ -60,7 +61,7 @@ def caesarCipher():
     pass
 
 @app.route('/monoalphabetic-cipher',methods=['GET','POST'])
-def monoalphabeticCipher():
+def monoalphabetic_cipher():
     encData = {}
     decData = {}
 
@@ -98,7 +99,7 @@ def monoalphabeticCipher():
 
 
 @app.route('/polyalphabetic-cipher',methods=['GET','POST'])
-def polyalphabeticCipher():
+def polyalphabetic_cipher():
     encData = {}
     decData = {}
 
@@ -211,6 +212,37 @@ def playfair_cipher():
     print(encData)
     print(decData)
     return render_template("playfair-cipher.html",decData=decData,encData=encData,page = "playfair-cipher")   
+    pass
+
+
+@app.route('/row-transposition-cipher',methods=['GET','POST'])
+def row_transposition_cipher():
+    encData = {}
+    decData = {}
+
+    if (request.form):
+        if request.form['submitButton']=="Encrypt":
+
+            plain_text=request.form["plainText"]
+            key = request.form["key"]
+
+            encData = row_transposition_enc(plain_text,key)
+
+            pass
+
+        elif request.form['submitButton'] == 'Decrypt':
+
+            cipher_text=request.form["cipherText"]
+            key = request.form["key"]
+
+            decData = row_transposition_dec(cipher_text,key)
+           
+            pass
+
+        pass
+    print(encData)
+    print(decData)
+    return render_template("row-transposition-cipher.html",decData=decData,encData=encData,page = "row-transposition-cipher")   
     pass
 
 

@@ -1,19 +1,265 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSUT Cipher tools</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <title>PSUT Cipher tools</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    /* Fixed sidenav, full height */
+    .sidenav {
+      height: 100%;
+      width: 300px;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #F5F5F5;
+      overflow-x: hidden;
+
+    }
+
+    /* Style the sidenav links and the dropdown button */
+    .sidenav a,
+    .dropdown-btn {
+      padding: 6px 8px 6px 16px;
+      text-decoration: none;
+      /* font-size: 20px; */
+      color: blue;
+      display: block;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* On mouse-over */
+    .sidenav a:hover,
+    .dropdown-btn:hover {
+      color: white;
+      background-color: blue;
+      border-radius: 5px;
+    }
+
+    #main{
+      width: calc(100% - 300px );
+      float: right;
+      margin-top: 40px;
+    }
+
+
+
+    /* Add an active class to the active dropdown button */
+    .active {
+      background-color: blue;
+      color: white;
+    }
+
+    /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+    .dropdown-container {
+      display: none;
+      background-color: #D3D3D3;
+      padding-left: 8px;
+    }
+
+    /* Optional: Style the caret down icon */
+    .fa-caret-down {
+      float: right;
+      padding-right: 8px;
+    }
+
+    .card {
+      margin :auto;
+      margin-top: 20px;
+      width: 75%;
+    }
+
+    .card-header {
+      font-weight: bold;
+    }
+    /* Some media queries for responsiveness */
+    @media screen and (max-width: 1024) {
+      .sidenav {
+        /* background-color:black; */
+        /* padding-top: 15px; */
+        display:none;
+      }
+      #main{
+        width:100%;
+      }
+      .card {
+        width:90%;
+      }
+      .sidenav a {
+        font-size: 18px;
+      }
+    }
+
+  </style>
+
+
 
 </head>
+
 <body>
+
+
+  <div class="sidenav">
+    <a href="#" style="text-align:center;margin-bottom:10px;">Classic Encryption Technique</a>
+    <button class="dropdown-btn">Substitution Cipher
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+      <a href="/caesar-cipher">Caesar-cipher</a>
+      <a href="/monoalphabetic-cipher">Monoalphabetic Cipher</a>
+      <a href="/polyalphabetic-cipher">Polyalphabetic Cipher</a>
+      <a href="/vigenère-cipher">Vigenère Cipher</a>
+      <a href="/playfair-cipher">Playfair Cipher</a>
+    </div>
+    <button class="dropdown-btn">Transposition Cipher
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+      <a href="/rail-fence-cipher">Rail Fence Cipher</a>
+      <a href="/row-transposition-cipher">Row Transposition Cipher</a>
+
+    </div>
+    <a href="#" style="text-align:center;margin-bottom:10px;">Modern Encryption Techniques</a>
+    <a href="#">The Data Encryption Standard (DES)</a>
+    <a href="#">Advanced Encryption Standard (AES)
+    </a>
+
+
+  </div>
+
+
+
+  <script>
+    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+      dropdown[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        var dropdownContent = this.nextElementSibling;
+        if (dropdownContent.style.display === "block") {
+          dropdownContent.style.display = "none";
+        } else {
+          dropdownContent.style.display = "block";
+        }
+      });
+    }
+  </script>
+
+  <div id="main">
+
     {% include 'navbar.html' %}
+
+    <div class="card">
+
+      <div class="card-header">Information Systems Security</div>
+      <div class="card-body">
+
+        <p>This project was done by: Mohammed Rimawi & Yasmeen Alkhdairat. We have made this project for "Information
+          Systems Security" Course in Princess Sumaya University for technology. It has been made ready five encryption
+          methods as options.
+          <ul>
+            <li>Caesar cipher</li>
+            <li>Monoalphabetic Cipher</li>
+            <li>Polyalphabetic Cipher</li>
+            <li>Vigenere Cipher</li>
+            <li>Playfair Cipher</li>
+          </ul><br>
+          This project is open for further developement. </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h5 class="card-header">Caesar cipher</h5>
+      <div class="card-body">
+        <h5 class="card-title">Substitution Cipher</h5>
+        <p class="card-text">Caesar cipher is one of the simplest of substitution ciphers.It is a type of substitution
+          cipher in which each letter in the plaintext is replaced by a letter some fixed number of positions down the
+          alphabet. For example, with a left shift of 3, D would be replaced by A, E would become B, and so on. The
+          method is named after Julius Caesar, who used it in his private correspondence.</p>
+        <a href="/caesar-cipher" class="btn btn-primary">try it yourself</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h5 class="card-header">Monoalphabetic Cipher</h5>
+      <div class="card-body">
+        <h5 class="card-title">Substitution Cipher</h5>
+        <p class="card-text">Monoalphabetic cipher is a substitution cipher in which for a given key, the cipher
+          alphabet for each plain alphabet is fixed throughout the encryption process. For example, if ‘A’ is encrypted
+          as ‘D’, for any number of occurrence in that plaintext, ‘A’ will always get encrypted to ‘D’. </p>
+        <a href="/monoalphabetic-cipher" class="btn btn-primary">try it yourself</a>
+      </div>
+    </div>
+    <div class="card">
+      <h5 class="card-header">Vigenere Cipher</h5>
+      <div class="card-body">
+        <h5 class="card-title">Substitution Cipher</h5>
+        <p class="card-text">It is a method of encrypting alphabetic text by using a series of interwoven Caesar
+          ciphers, based on the letters of a keyword. It employs a form of polyalphabetic substitution </p>
+        <a href="/vigenère-cipher" class="btn btn-primary">try it yourself</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h5 class="card-header">Polyalphabetic Cipher</h5>
+      <div class="card-body">
+        <h5 class="card-title">Substitution Cipher</h5>
+        <p class="card-text">It is a substitution cipher in which the cipher alphabet for the plain alphabet may be
+          different at different places during the encryption process..</p>
+        <a href="/polyalphabetic-cipher" class="btn btn-primary">try it yourself</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h5 class="card-header">Playfair Cipher</h5>
+      <div class="card-body">
+        <h5 class="card-title">Substitution Cipher</h5>
+        <p class="card-text">Initially a key table is created. The key table is a 5×5 grid of alphabets that acts as the
+          key for encrypting the plaintext. Each of the 25 alphabets must be unique and one letter of the alphabet
+          (usually J) is omitted from the table as we need only 25 alphabets instead of 26. If the plaintext contains J,
+          then it is replaced by I.</p>
+        <a href="/playfair-cipher" class="btn btn-primary">try it yourself</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h5 class="card-header">Rail Fence Cipher</h5>
+      <div class="card-body">
+        <h5 class="card-title">Transposition Cipher</h5>
+        <p class="card-text">Also called a zigzag cipher. The plaintext is written downwards diagonally on successive
+          "rails" of an imaginary fence, then moving up when the bottom rail is reached, down again when the top rail is
+          reached, and so on until the whole plaintext is written out. The ciphertext is then read off in rows.</p>
+        <a href="/rail-fence-cipher" class="btn btn-primary">try it yourself</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h5 class="card-header">Row Transposition Cipher</h5>
+      <div class="card-body">
+        <h5 class="card-title">Transposition Cipher</h5>
+        <p class="card-text"> the message is written out in rows of a fixed length, and then read out again column by
+          column, and the columns are chosen in some scrambled order. Both the width of the rows and the permutation of
+          the columns are usually defined by a keyword. For example, the keyword ZEBRAS is of length 6 (so the rows are
+          of length 6), and the permutation is defined by the alphabetical order of the letters in the keyword. In this
+          case, the order would be "6 3 2 4 1 5".</p>
+        <a href="/row-transposition-cipher" class="btn btn-primary">try it yourself</a>
+      </div>
+    </div>
+
+
+  </div>
 </body>
+
 </html>
