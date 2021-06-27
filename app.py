@@ -11,13 +11,10 @@ from row_transposition_cipher import *
 app = Flask(__name__)
 
 
-
-
 @app.route('/')
 def index():
     return render_template("index.html",page="home")
     pass
-
 
 @app.route('/caesar-cipher',methods=['GET','POST'])
 def caesar_cipher():
@@ -96,7 +93,6 @@ def monoalphabetic_cipher():
             pass
     return render_template("monoalphabetic-cipher.html",key = key,decData=decData,encData=encData,page = "monoalphabetic-cipher")   
     pass
-
 
 @app.route('/polyalphabetic-cipher',methods=['GET','POST'])
 def polyalphabetic_cipher():
@@ -214,7 +210,6 @@ def playfair_cipher():
     return render_template("playfair-cipher.html",decData=decData,encData=encData,page = "playfair-cipher")   
     pass
 
-
 @app.route('/row-transposition-cipher',methods=['GET','POST'])
 def row_transposition_cipher():
     encData = {}
@@ -244,7 +239,6 @@ def row_transposition_cipher():
     print(decData)
     return render_template("row-transposition-cipher.html",decData=decData,encData=encData,page = "row-transposition-cipher")   
     pass
-
 
 @app.route('/rail-fence-cipher',methods=['GET','POST'])
 def rail_fence_cipher():

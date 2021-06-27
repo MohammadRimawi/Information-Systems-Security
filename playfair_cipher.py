@@ -1,5 +1,3 @@
-from re import split
-
 
 def normalize_text(text): # lowers the string and removes everything but the alphabets.
  
@@ -22,7 +20,6 @@ def remove_duplicates(key):
             alph[ord(i)-ord('a')] = True
     return new_key
     pass
-
 
 def get_grid(key):
     grid = [
@@ -101,6 +98,7 @@ def shift(grid,a,b,type):
     print(new_a+new_b)
     return new_a,new_b
     pass
+
 def play_fair_enc(plain_text,key):
 
     data = {}
@@ -148,7 +146,6 @@ def play_fair_enc(plain_text,key):
     return data
     pass
 
-
 def play_fair_dec(cipher_text,key):
 
     data = {}
@@ -188,10 +185,6 @@ def play_fair_dec(cipher_text,key):
     # print(data)
     return data
     pass
-
-
-
-
 
 
 # play_fair_enc("balloon","monarchy")

@@ -66,7 +66,6 @@ def rail_fence_dec(cipher_text,key,subtype):
     return data
     pass
 
-
 def get_grid(text,key,subtype,type):
     if type == "enc":
         grid = []

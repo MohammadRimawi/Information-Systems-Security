@@ -9,7 +9,6 @@ def normalize_text(text): # lowers the string and removes everything but the alp
 
     return new_text
 
-
 def transpose(grid,key):
     new_grid = []
 
@@ -149,4 +148,4 @@ def row_transposition_dec(cipher_text,key):
 
 
 # print(row_transposition_enc("attackpostponeduntiltwoam","4312567"))
-print(row_transposition_dec("ttnaaptmtsuoaodwcoiknlpet","4312567"))
+# print(row_transposition_dec("ttnaaptmtsuoaodwcoiknlpet","4312567"))
